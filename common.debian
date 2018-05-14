@@ -1,5 +1,5 @@
 RUN REPO=http://cdn-fastly.deb.debian.org && \
-  echo "deb $REPO/debian jessie main\ndeb $REPO/debian jessie-updates main\ndeb $REPO/debian-security jessie/updates main" > /etc/apt/sources.list
+  echo "deb $REPO/debian stretch main\ndeb $REPO/debian stretch-updates main\ndeb $REPO/debian-security stretch/updates main" > /etc/apt/sources.list
 
 ARG DEBIAN_FRONTEND=noninteractive
 

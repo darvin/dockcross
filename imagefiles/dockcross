@@ -204,6 +204,12 @@ if [ -e "$SSH_DIR" ]; then
     HOST_VOLUMES+="-v $SSH_DIR:/home/$(id -un)/.ssh"
 fi
 
+# Mount cache folder for the rust
+
+HOST_VOLUMES+=" -v $PWD/.docker_cargo_cache/registry:/usr/local/cargo/registry "
+HOST_VOLUMES+=" -v $PWD/.docker_cargo_cache/git:/usr/local/cargo/git "
+
+
 #------------------------------------------------------------------------------
 # Now, finally, run the command in a container
 #

@@ -1,14 +1,12 @@
 FROM dockcross/base:latest
 MAINTAINER Matt McCormick "matt.mccormick@kitware.com"
 
-# Add the cross compiler sources
-RUN echo "deb http://emdebian.org/tools/debian/ jessie main" >> /etc/apt/sources.list && \
-  dpkg --add-architecture armhf && \
-  curl http://emdebian.org/tools/debian/emdebian-toolchain-archive.key | apt-key add -
+RUN dpkg --add-architecture armhf
 
 RUN apt-get update && apt-get install -y \
   crossbuild-essential-armhf \
   gfortran-arm-linux-gnueabihf \
+  gcc-arm-linux-gnueabihf \
   qemu-user \
   qemu-user-static \
   libbz2-dev:armhf \
@@ -27,8 +25,6 @@ ENV AS=/usr/bin/${CROSS_TRIPLE}-as \
 
 ENV DEFAULT_DOCKCROSS_IMAGE dockcross/linux-armv7
 
-# Note: Toolchain file support is currently in debian Experimental:
-# https://wiki.debian.org/CrossToolchains#In_jessie_.28Debian_8.29
 COPY Toolchain.cmake /usr/lib/${CROSS_TRIPLE}/
 ENV CMAKE_TOOLCHAIN_FILE /usr/lib/${CROSS_TRIPLE}/Toolchain.cmake
 

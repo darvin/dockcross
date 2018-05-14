@@ -20,7 +20,7 @@ GEN_IMAGES = linux-s390x linux-mips manylinux-x86 manylinux-x64 browser-asmjs li
 GEN_IMAGE_DOCKERFILES = $(addsuffix /Dockerfile,$(GEN_IMAGES))
 
 # These images are expected to have explicit rules for *both* build and testing
-NON_STANDARD_IMAGES = browser-asmjs manylinux-x64 manylinux-x86
+NON_STANDARD_IMAGES = browser-asmjs manylinux-x64 manylinux-x86 linux-armv7-rust
 
 DOCKER_COMPOSITE_SOURCES = common.docker common.debian common.manylinux common.crosstool
 
@@ -116,6 +116,24 @@ manylinux-x86: manylinux-x86/Dockerfile
 manylinux-x86.test: manylinux-x86
 	$(DOCKER) run $(RM) dockcross/manylinux-x86 > $(BIN)/dockcross-manylinux-x86 && chmod +x $(BIN)/dockcross-manylinux-x86
 	$(BIN)/dockcross-manylinux-x86 /opt/python/cp35-cp35m/bin/python test/run.py
+
+
+
+linux-armv7-rust: linux-armv7-rust/Dockerfile
+	mkdir -p $@/imagefiles && cp -r imagefiles $@/
+	$(DOCKER) build -t $(ORG)/linux-armv7-rust:latest \
+		--build-arg IMAGE=$(ORG)/linux-armv7-rust \
+		--build-arg VCS_REF=`git rev-parse --short HEAD` \
+		--build-arg VCS_URL=`git config --get remote.origin.url` \
+		--build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` \
+		-f linux-armv7-rust/Dockerfile .
+	rm -rf $@/imagefiles
+
+linux-armv7-rust.test: linux-armv7-rust
+	echo "Testing RUST lang"
+	$(DOCKER) run $(RM) dockcross/linux-armv7-rust > $(BIN)/dockcross-linux-armv7-rust && chmod +x $(BIN)/dockcross-linux-armv7-rust
+	$(BIN)/dockcross-linux-armv7-rust rustc test/rust.rs
+	rm ./rust
 
 #
 # base

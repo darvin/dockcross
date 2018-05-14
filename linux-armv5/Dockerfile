@@ -5,7 +5,7 @@ MAINTAINER Matt McCormick "matt.mccormick@kitware.com"
 # VFP instructions (armhf).
 
 # From https://wiki.debian.org/CrossToolchains, installing for jessie
-RUN echo "deb http://emdebian.org/tools/debian/ jessie main" > /etc/apt/sources.list.d/emdebian.list \
+RUN echo "deb http://emdebian.org/tools/debian/ stable main" > /etc/apt/sources.list.d/emdebian.list \
 && curl http://emdebian.org/tools/debian/emdebian-toolchain-archive.key | apt-key add - \
 && sed -i 's/httpredir.debian.org/http.debian.net/' /etc/apt/sources.list \
 && dpkg --add-architecture armel \

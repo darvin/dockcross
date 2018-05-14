@@ -9,4 +9,4 @@ deb http://deb.debian.org/debian/ oldstable-updates main contrib non-free
 
 deb http://deb.debian.org/debian-security oldstable/updates main
 
-deb http://ftp.debian.org/debian jessie-backports main
+deb http://ftp.debian.org/debian stable-backports main
