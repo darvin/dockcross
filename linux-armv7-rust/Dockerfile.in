@@ -16,7 +16,9 @@ RUN set -eux; \
     curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain nightly -y
 
 RUN set -eux; \
-    rustup target add --toolchain nightly armv7-unknown-linux-gnueabihf
+    rustup target add arm-unknown-linux-gnueabihf
+
+RUN mkdir ~/.cargo && echo '[target.arm-unknown-linux-gnueabihf]\nlinker = "arm-linux-gnueabihf-gcc"\nrustflags = ["-C", "target-feature=+v7,+vfp3,+a9,+neon"]' > ~/.cargo/config
 
 
 # Build-time metadata as defined at http://label-schema.org
